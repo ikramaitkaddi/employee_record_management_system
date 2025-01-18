@@ -1,0 +1,261 @@
+{
+  "info": {
+    "_postman_id": "479a926b-3fea-4e4f-89f3-48ef5c7ae3a3",
+    "name": "employee managment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38095886"
+  },
+  "item": [
+    {
+      "name": "getallemployees",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/employees?userRole=admin&userDepartment=hr",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees"
+          ],
+          "query": [
+            {
+              "key": "userRole",
+              "value": "admin"
+            },
+            {
+              "key": "userDepartment",
+              "value": "hr"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getEmployeeById",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/2?userRole=admin&userDepartment=hr",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            "2"
+          ],
+          "query": [
+            {
+              "key": "userRole",
+              "value": "admin"
+            },
+            {
+              "key": "userDepartment",
+              "value": "hr"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "createemployee",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n           \"id\": null,\n           \"fullName\": \"John Doe\",\n           \"jobTitle\": \"Software Engineer\",\n           \"department\": \"Engineering\",\n           \"hireDate\": \"2023-01-15\",\n           \"employmentStatus\": \"Active\",\n           \"contactInfo\": {\n             \"phone\": \"123-456-7890\",\n             \"email\": \"john.doe@example.com\"\n           },\n           \"address\": \"123 Main Street, City, Country\"\n         }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/employees?userRole=admin&performedBy=ikram",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees"
+          ],
+          "query": [
+            {
+              "key": "userRole",
+              "value": "admin"
+            },
+            {
+              "key": "performedBy",
+              "value": "ikram"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "searchEmployee",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "User-Role",
+            "value": "admin"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/search?name=John Doe&id=2&department=Engineering&jobTitle=Software Engineer",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "John Doe"
+            },
+            {
+              "key": "id",
+              "value": "2"
+            },
+            {
+              "key": "department",
+              "value": "Engineering"
+            },
+            {
+              "key": "jobTitle",
+              "value": "Software Engineer"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "filterEmployee",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "User-Role",
+            "value": "admin"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/filter?status=Active&department=Engineering&hireDate=2023-01-15",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            "filter"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "Active"
+            },
+            {
+              "key": "department",
+              "value": "Engineering"
+            },
+            {
+              "key": "hireDate",
+              "value": "2023-01-15"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deleteEmployee",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/2?userRole=admin&performedBy=ikram",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            "2"
+          ],
+          "query": [
+            {
+              "key": "userRole",
+              "value": "admin"
+            },
+            {
+              "key": "performedBy",
+              "value": "ikram"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updateEmployee",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
