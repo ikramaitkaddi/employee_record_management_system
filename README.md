@@ -13,6 +13,7 @@
     - [Test Coverage with JaCoCo](#test-coverage-with-jacoco)
     - [Swagger Documentation](#swagger-documentation)
     - [Postman Collection](#postman-collection)
+- [Docker Compose Configuration](#docker-compose-configuration)
 - [Authors](#authors)
 
 ---
@@ -162,5 +163,100 @@ Access the Swagger UI at: [http://localhost:8080/api/swagger-ui.html](http://loc
 # Postman Collection
 
 Import the provided Postman collection (`employee_management.postman_collection.json`) into Postman to test the APIs.
+## Docker Compose Configuration
+ docker-compose.yml
+
+ ```yaml
+ version: '3.8'
+
+services:
+  oracle:
+    image: gvenzl/oracle-free
+    container_name: "oracle"
+    environment:
+      ORACLE_PDB_NAME: FREEPDB1
+      ORACLE_USER: system
+      ORACLE_PASSWORD: SysPassword1
+    ports:
+      - "1521:1521"
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "employee_management"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oracle
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//oracle:1521/FREEPDB1
+      SPRING_DATASOURCE_USERNAME: system
+      SPRING_DATASOURCE_PASSWORD: SysPassword1
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: oracle.jdbc.OracleDriver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8080
+      SPRING_SERVLET_CONTEXT_PATH: /api
+      SPRINGDOC_API_DOCS_PATH: /api-docs
+      SPRINGDOC_SWAGGER_UI_PATH: /swagger-ui.html
+ ```
+### Services
+
+1. **Oracle Service**
+
+    - **Image**: `gvenzl/oracle-free`
+    - **Container Name**: `oracle`
+    - **Environment Variables**:
+        - `ORACLE_PDB_NAME`: `FREEPDB1` (Pluggable Database Name)
+        - `ORACLE_USER`: `system`
+        - `ORACLE_PASSWORD`: `SysPassword1`
+    - **Ports Mapping**: `1521:1521` (Host port 1521 mapped to container port 1521)
+
+2. **Spring Application Service**
+
+    - **Build Context**: `.` (current directory)
+    - **Dockerfile**: `Dockerfile`
+    - **Container Name**: `employee_management`
+    - **Ports Mapping**: `8080:8080` (Host port 8080 mapped to container port 8080)
+    - **Dependencies**: Depends on the Oracle service
+    - **Environment Variables**:
+        - `SPRING_DATASOURCE_URL`: `jdbc:oracle:thin:@//oracle:1521/FREEPDB1`
+        - `SPRING_DATASOURCE_USERNAME`: `system`
+        - `SPRING_DATASOURCE_PASSWORD`: `SysPassword1`
+        - `SPRING_DATASOURCE_DRIVER_CLASS_NAME`: `oracle.jdbc.OracleDriver`
+        - `SPRING_JPA_HIBERNATE_DDL_AUTO`: `update`
+        - `SERVER_PORT`: `8080`
+        - `SPRING_SERVLET_CONTEXT_PATH`: `/api`
+        - `SPRINGDOC_API_DOCS_PATH`: `/api-docs`
+        - `SPRINGDOC_SWAGGER_UI_PATH`: `/swagger-ui.html`
+
+### Dockerfile for Spring Application
+
+```dockerfile
+FROM openjdk:17-oracle
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the packaged jar file into the container at path /
+COPY target/employee_management-0.0.1-SNAPSHOT.jar /app/app.jar
+
+# Expose port 8080 to the outside world
+EXPOSE 8080
+
+# Set environment variables for Spring
+ENV SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//localhost:1521/FREEPDB1
+ENV SPRING_DATASOURCE_USERNAME=system
+ENV SPRING_DATASOURCE_PASSWORD=SysPassword1
+ENV SPRING_DATASOURCE_DRIVER_CLASS_NAME=oracle.jdbc.OracleDriver
+ENV SPRING_JPA_HIBERNATE_DDL_AUTO=update
+ENV SERVER_PORT=8080
+ENV SPRING_SERVLET_CONTEXT_PATH=/api
+ENV SPRINGDOC_API_DOCS_PATH=/api-docs
+ENV SPRINGDOC_SWAGGER_UI_PATH=/swagger-ui.html
+
+# Specify the command to run on container start
+CMD ["java", "-jar", "app.jar"]
+
 # Authors
 Ikram Ait Kaddi – Software Engineer
