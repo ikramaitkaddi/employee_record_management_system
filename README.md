@@ -257,6 +257,6 @@ ENV SPRINGDOC_SWAGGER_UI_PATH=/swagger-ui.html
 
 # Specify the command to run on container start
 CMD ["java", "-jar", "app.jar"]
-
+ ```
 # Authors
 Ikram Ait Kaddi – Software Engineer
